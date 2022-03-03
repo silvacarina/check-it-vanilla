@@ -1,5 +1,26 @@
 const $form = document.getElementById('form-tasks');
 
+const handleCheckboxChange = (event) => {
+  const $checkbox = event.target
+  const $li = $checkbox.parentElement.parentElement
+  const $tasksTodoList = document.getElementById('list-todo')
+  const $taskesDoneList = document.getElementById('list-done')
+
+  if ($checkbox.checked) {
+    $taskesDoneList.append($li)
+  } else {
+    $tasksTodoList.append($li)
+  }
+}
+
+const handleItemRemove = (event) => {
+  const $removeButton = event.target
+  const $li = $removeButton.parentElement
+  const $currentList = $li.parentElement
+
+  $currentList.removeChild($li)
+}
+
 const adicionarTarefa = (title) => {
     //Criat Item (li)
     const $li = document.createElement('li')
@@ -10,11 +31,11 @@ const adicionarTarefa = (title) => {
     $label.classList.add('tasks-section__item__label')
     $li.append($label)
 
-    // Criar input (input)
-    const $input = document.createElement('input')
-    $input.classList.add('tasks-section__item__checkbox')
-    $input.setAttribute('type', 'checkbox')
-    $label.append($input)
+    // Criar checkbox (input)
+    const $checkbox = document.createElement('input')
+    $checkbox.classList.add('tasks-section__item__checkbox')
+    $checkbox.setAttribute('type', 'checkbox')
+    $label.append($checkbox)
 
     // Criar span (span)
     const $span = document.createElement('span')
@@ -29,8 +50,12 @@ const adicionarTarefa = (title) => {
     $li.append($removeButton)
 
     //Adicionar item na lista To-d0
-    const $taskList = document.getElementById('list-todo')
-    $taskList.append($li)
+    const $tasksTodoList = document.getElementById('list-todo')
+    $tasksTodoList.append($li)
+
+    //Adicionar eventos
+    $checkbox.addEventListener('change', handleCheckboxChange)
+    $removeButton.addEventListener('click', handleItemRemove)
 }
 
 const envioDeFormulario = (event) => {
@@ -39,6 +64,7 @@ const envioDeFormulario = (event) => {
     const title = formData.get('title')
 
     adicionarTarefa(title)
+    $form.reset()
 }
 
 $form.addEventListener('submit', envioDeFormulario)
