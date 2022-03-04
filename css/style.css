@@ -140,11 +140,6 @@
     position: absolute;
     transform: rotate(-45deg);
 }
-  
-
-.tasks-section__item__checkbox::after{
-
-}
 
 .tasks-section__item__text {
     flex: 1;
